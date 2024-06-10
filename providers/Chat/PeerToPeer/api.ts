@@ -11,5 +11,8 @@ export async function listing(
     method: "GET",
     url: `/Chat/UserPeerToPeerChatListing`,
     queryParams: props,
+    headers:{
+      "Authorization":Cookies.get("token")
+  }
   });
 }

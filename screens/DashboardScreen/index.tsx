@@ -9,9 +9,12 @@ import ProjectProgress from "./ProjectProgress";
 import AchievementCard from "./AchievementCard";
 import RecentMessage from "./RecentMessage";
 import { useMyTaskListing } from "providers/Project/Task";
+import { useMe } from "providers/Login";
 
 const DashboardScreen: React.FC = () => {
   const todayTasks = useMyTaskListing({});
+  const me = useMe({});
+  console.log(me,"me")
   console.log(todayTasks,"takss")
   return (
     <>

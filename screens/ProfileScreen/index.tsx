@@ -2,8 +2,11 @@ import { Box, Grid, Typography } from '@mui/material'
 import PageLayout from 'components/PageLayout'
 import React from 'react'
 import ProfileCard from './ProfileCards'
+import { useMe } from 'providers/Login'
 
 const ProfileScreen = () => {
+  const me = useMe({});
+  console.log(me,"me")
   return (
     <PageLayout>
     <Box ml={2}>

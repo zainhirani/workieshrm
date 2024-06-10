@@ -1,127 +1,76 @@
+//@ts-nocheck
 import React from 'react';
-import { Box, Typography, IconButton, Menu, MenuItem, TextField } from '@mui/material';
-import SendIcon from '@mui/icons-material/Send';
-import MoreVertIcon from '@mui/icons-material/MoreVert';
-import EditIcon from '@mui/icons-material/Edit';
-import CheckIcon from '@mui/icons-material/Check';
-import CloseIcon from '@mui/icons-material/Close';
-import InsertDriveFileIcon from '@mui/icons-material/InsertDriveFile'; // Import the file icon
+import { Box, Typography } from '@mui/material';
+import InsertDriveFileIcon from '@mui/icons-material/InsertDriveFile';
+import { useMe } from 'providers/Login';
 
 interface Message {
-  sender: string;
-  text: string;
-  edited?: boolean;
-  files?: File[]; // Add files property to Message interface
+  _id: string;
+  Body: string;
+  SenderId: string;
+  ReceiverId: string;
+  EmployeeMessageMedia:[
+    {
+      _id:string;
+      MessageId:string;    
+      Media:File;    
+    }
+  ]
 }
 
 interface ChatWindowProps {
-  chat: {
-    id: string;
-    user?: string;
-    group?: string;
-    messages: Message[];
-  };
-  onEditMessage: (index: number, newText: string) => void;
-  onDeleteMessage: (index: number) => void;
+  chat:Message[];
 }
 
-const ChatWindow: React.FC<ChatWindowProps> = ({ chat, onEditMessage, onDeleteMessage }) => {
-  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-  const [editingIndex, setEditingIndex] = React.useState<number | null>(null);
-  const [editText, setEditText] = React.useState<string>('');
-
-  const handleMenuOpen = (event: React.MouseEvent<HTMLElement>, index: number) => {
-    setAnchorEl(event.currentTarget);
-    setEditingIndex(index);
-  };
-
-  const handleMenuClose = () => {
-    setAnchorEl(null);
-    setEditingIndex(null);
-  };
-
-  const handleEdit = (index: number, text: string) => {
-    setEditText(text);
-    setEditingIndex(index);
-    setAnchorEl(null);
-  };
-
-  const handleEditConfirm = () => {
-    if (editingIndex !== null) {
-      onEditMessage(editingIndex, editText);
-      setEditingIndex(null);
-      setEditText('');
-    }
-  };
-
-  const handleDelete = (index: number) => {
-    onDeleteMessage(index);
-    setAnchorEl(null);
-  };
+const ChatWindow: React.FC<ChatWindowProps> = ({ chat }) => {
+  const me = useMe({});
+  console.log(me?.data?.data,"me")
 
   return (
-    <Box flex={1} p={2} display="flex" flexDirection="column">
-      {chat.messages.map((msg, index) => (
-        <Box key={index} display="flex" justifyContent={msg.sender === 'You' ? 'flex-end' : 'flex-start'} mb={1}>
-          <Box display="flex" flexDirection="column" alignItems={msg.sender === 'You' ? 'flex-end' : 'flex-start'}>
-            <Typography variant="caption" color="textSecondary">
-              {msg.sender}
-              {msg.edited && <Typography variant="caption" color="textSecondary" component="span"> (edited)</Typography>}
-            </Typography>
-            {editingIndex === index ? (
+    <Box flex={1} p={2} display="flex" flexDirection="column" sx={{ overflowY: "auto" }}>
+      {chat.map((msg, index) => {
+        const isCurrentUser = msg.SenderId === me?.data?.data?._id;
+        return (
+          <Box
+            key={index}
+            display="flex"
+            justifyContent={isCurrentUser ? 'flex-end' : 'flex-start'}
+            mb={1}
+          >
+            <Box
+              display="flex"
+              flexDirection="column"
+              alignItems={isCurrentUser ? 'flex-end' : 'flex-start'}
+            >
+              <Typography variant="caption" color="textSecondary">
+                {msg.SenderId}
+              </Typography>
               <Box display="flex" alignItems="center">
-                <TextField
-                  value={editText}
-                  onChange={(e) => setEditText(e.target.value)}
-                  variant="outlined"
-                  size="small"
-                />
-                <IconButton onClick={handleEditConfirm} size="small">
-                  <CheckIcon />
-                </IconButton>
-                <IconButton onClick={() => setEditingIndex(null)} size="small">
-                  <CloseIcon />
-                </IconButton>
-              </Box>
-            ) : (
-              <Box display="flex" alignItems="center">
-                {msg.files && msg.files.map((file, fileIndex) => ( // Display files if present in message
+                {msg.EmployeeMessageMedia && msg.EmployeeMessageMedia.map((file, fileIndex) => (
                   <Box key={fileIndex} display="flex" alignItems="center">
                     <InsertDriveFileIcon />
-                    <Typography variant="body2">{file.name}</Typography>
+                    <Typography variant="body2">{file.MessageId}</Typography>
                   </Box>
                 ))}
                 <Typography
                   variant="body1"
-                  style={{
+                  sx={{
                     padding: '8px',
-                    backgroundColor: msg.sender === 'You' ? '#3f51b5' : '#f1f1f1',
-                    color: msg.sender === 'You' ? 'white' : 'black',
+                    backgroundColor: isCurrentUser ? '#3f51b5' : '#f1f1f1',
+                    color: isCurrentUser ? 'white' : 'black',
                     borderRadius: '8px',
                     maxWidth: '60%',
                     wordWrap: 'break-word',
+                    marginLeft: isCurrentUser ? 'auto' : '0'
                   }}
                 >
-                  {msg.text}
+                  {msg.Body}
                 </Typography>
-                {msg.sender === 'You' && (
-                  <IconButton onClick={(e) => handleMenuOpen(e, index)} size="small">
-                    <MoreVertIcon fontSize="small" />
-                  </IconButton>
-                )}
               </Box>
-            )}
+            </Box>
           </Box>
-        </Box>
-      ))}
-      <Menu
-        anchorEl={anchorEl}
-        open={Boolean(anchorEl)}
-        onClose={handleMenuClose}
-      >
-        <MenuItem onClick={() => handleEdit(editingIndex!, chat.messages[editingIndex!].text)}>Edit</MenuItem>
-        <MenuItem onClick={() => handleDelete(editingIndex!)}>Delete</MenuItem>
-      </Menu>
+        );
+      })}
     </Box>
   );
 };

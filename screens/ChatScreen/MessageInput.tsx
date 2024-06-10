@@ -1,26 +1,18 @@
 import React, { useState } from 'react';
-import { Box, TextField, IconButton, Popover, Typography } from '@mui/material';
-import SendIcon from '@mui/icons-material/Send';
+import { Box, TextField, IconButton, Popover } from '@mui/material';
 import EmojiEmotionsIcon from '@mui/icons-material/EmojiEmotions';
+import SendIcon from '@mui/icons-material/Send';
 import InsertDriveFileIcon from '@mui/icons-material/InsertDriveFile';
 import EmojiPicker, { EmojiClickData } from 'emoji-picker-react';
 
 interface MessageInputProps {
-  onSendMessage: (text: string, files: File[]) => void;
+  onSendMessage: (Body: string, image: File[]) => void;
 }
 
 const MessageInput: React.FC<MessageInputProps> = ({ onSendMessage }) => {
   const [message, setMessage] = useState('');
   const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
   const [files, setFiles] = useState<File[]>([]);
-
-  const handleSend = () => {
-    if (message.trim() || files.length > 0) {
-      onSendMessage(message, files);
-      setMessage('');
-      setFiles([]);
-    }
-  };
 
   const handleEmojiClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
@@ -29,6 +21,14 @@ const MessageInput: React.FC<MessageInputProps> = ({ onSendMessage }) => {
   const handleEmojiSelect = (emojiData: EmojiClickData) => {
     setMessage((prev) => prev + emojiData.emoji);
     setAnchorEl(null);
+  };
+
+  const handleSend = () => {
+    if (message.trim() || files.length > 0) {
+      onSendMessage(message, files);
+      setMessage('');
+      setFiles([]);
+    }
   };
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {

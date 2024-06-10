@@ -20,7 +20,7 @@ import Loader from "components/Loader/Loader";
 import { useSnackbar } from "notistack";
 import { useAuthContext } from "contexts/AuthContext";
 import { Close } from "@mui/icons-material";
-import { useCeoLogin } from "providers/Login";
+import { useCeoLogin, useMainLogin } from "providers/Login";
 
 const validationSchema = Yup.object().shape({
   Email: Yup.string().required().email().label("Email"),
@@ -32,13 +32,15 @@ const LoginForm = () => {
   const [loading, setLoading] = useState(false);
   const router = useRouter();
   const { signIn } = useAuthContext();
-  const login = useCeoLogin();
+  // const login = useCeoLogin();
+  const login = useMainLogin();
 
   const onSubmit = useCallback(async (data: any) => {
     if (!loading) {
       setLoading(true);
     }
-    const resp: any = await login.mutate({ Email: data.Email, password: data.password })
+    const resp: any = await login.mutate({ UserId: data.Email, password: data.password })
+    // const resp: any = await login.mutate({ Email: data.Email, password: data.password })
     // ("credentials", {
     //   ...data,
     // //   redirect: false

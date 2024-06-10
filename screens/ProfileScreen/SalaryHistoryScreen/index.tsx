@@ -4,9 +4,12 @@ import CustomDialog from 'components/Views/DialogBox';
 import EditableBox from 'components/Views/EditableBox';
 import { SalaryData } from 'components/Views/TableData';
 import TableView from 'components/Views/TableView';
+import { useMe } from 'providers/Login';
 import React, { useState } from 'react'
 
 const SalaryHistoryScreen = () => {
+    const me = useMe({});
+    console.log(me,"me")
     const [view,setView] = useState(false);
     const SalaryInfo = [
         {label:"Month",defaultValue:"July",fieldName:"month",width:4},

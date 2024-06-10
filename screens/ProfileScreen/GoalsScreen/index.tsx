@@ -6,8 +6,11 @@ import TableView from 'components/Views/TableView';
 import React, { useState } from 'react'
 import EditGoalForm from './EditGoalForm';
 import AddGoalForm from './AddGoalForm';
+import { useMe } from 'providers/Login';
 
 const GoalsScreen = () => {
+    const me = useMe({});
+    console.log(me,"me")
     const [view,setView] = useState(false);
     const [deleteView,setDeleteView] = useState(false);
     const [add,setAdd] = useState(false);

@@ -77,7 +77,7 @@ const LoginForm = () => {
     //           <Close sx={{ color: "#fff" }} />
     //         </IconButton>
     //       ),
-    //     });
+    //      });
     //   }
     // }
     // console.log(resp, "resp");
@@ -93,7 +93,7 @@ const LoginForm = () => {
           </IconButton>
         ),
       });
-      router.push("/settings")
+      router.push("/")
       setLoading(false);
       Cookies.set("token", login.data.token)
       // localStorage.setItem(TOKEN, createOrganization?.data.token);

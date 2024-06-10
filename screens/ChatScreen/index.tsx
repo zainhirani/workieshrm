@@ -69,11 +69,6 @@ const ChatScreen: React.FC = () => {
   const [isGroup, setIsGroup] = useState(false);
   const [editingMessage, setEditingMessage] = useState(false);
   
-  
-  console.log(selectedChatId,"selectedChatId")
-  console.log(selectedChat,"selected")
-  console.log(peerToGroupChat,"peerToGroupChat")
-  console.log(chat?.filter((item)=>item?._id === selectedChat?.SenderId),"chat?.filter((item)=>item?._id === selectedChat?.SenderId")
 
 
   const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {
@@ -88,36 +83,60 @@ const ChatScreen: React.FC = () => {
     setSelectedChatId(chatId)
   };
 
+  // const handleSendMessage = (Body: string, image: File[]) => {
+  //   const formData = new FormData();
+  //   if (selectedChat) {
+  //     const newMessage = {
+  //       Body,
+  //       image,
+  //     };
+  //     formData.append('Body', Body);
+  //     formData.append('image', image);
+  //     const updatedMessages = [...selectedChat, newMessage];
+  //     const updatedChat = { ...selectedChat, messages: updatedMessages };
+      
+  //     isGroup ? sendPeerToGroupChat?.mutate(newMessage) : sendPeerToPeerChat?.mutate(newMessage)
+  //     // Update the chat list
+  //     if (isGroup) {
+  //       peerToGroupChat.refetch()
+  //       const updatedGroupList = peerToGroupList?.data?.data.map(chat =>
+  //         chat._id === selectedChat._id ? updatedChat : chat
+  //       );
+  //       setSelectedChat(peerToGroupChat?.data?.data);
+  //       // updatePeerToGroupList(updatedGroupList);
+  //     } else {
+  //       peerToPeerChat.refetch()
+  //       const updatedChatList = peerToPeerList?.data?.data.map(chat =>
+  //         chat._id === selectedChat._id ? updatedChat : chat
+  //       );
+  //       setSelectedChat(peerToPeerChat?.data?.data);
+  //       // updatePeerToPeerList(updatedChatList);
+  //     }
+  
+  //     // Update the selected chat state
+  //     setSelectedChat(updatedChat);
+  //   }
+  // };
+
   const handleSendMessage = (Body: string, image: File[]) => {
     if (selectedChat) {
       const newMessage = {
         Body,
         image,
       };
-      const updatedMessages = [...selectedChat, newMessage];
-      const updatedChat = { ...selectedChat, messages: updatedMessages };
-      
-      isGroup ? sendPeerToGroupChat(newMessage) : sendPeerToPeerChat?.mutate(newMessage)
-      // Update the chat list
-      if (isGroup) {
-        peerToGroupChat.refetch()
-        const updatedGroupList = peerToGroupList?.data?.data.map(chat =>
-          chat._id === selectedChat._id ? updatedChat : chat
-        );
-        // Assuming you have a function to update the state
-        // updatePeerToGroupList(updatedGroupList);
-      } else {
-        peerToPeerChat.refetch()
-        const updatedChatList = peerToPeerList?.data?.data.map(chat =>
-          chat._id === selectedChat._id ? updatedChat : chat
-        );
-        // updatePeerToPeerList(updatedChatList);
-      }
   
-      // Update the selected chat state
-      setSelectedChat(updatedChat);
+      if (isGroup) {
+        const updatedMessages = [...selectedChat, newMessage];
+        setSelectedChat(updatedMessages);
+        sendPeerToGroupChat?.mutate(newMessage);
+      } else {
+        const updatedMessages = [...selectedChat, newMessage];
+        setSelectedChat(updatedMessages);
+        sendPeerToPeerChat?.mutate(newMessage);
+      }
     }
   };
+  
 
   const handleEditMessage = (messageId: string, newText: string) => {
     if (selectedChat) {
@@ -197,6 +216,7 @@ const ChatScreen: React.FC = () => {
                 </Box>
                 <ChatWindow
                   chat={selectedChat}
+                  isGroupChat={isGroup}
                   // chat={selectedChat}
                   // onEditMessage={handleEditMessage}
                   // onDeleteMessage={handleDeleteMessage}

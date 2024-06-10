@@ -1,5 +1,6 @@
 import service from "services";
 import { Login } from "./types";
+import Cookies from "js-cookie";
 
 //GET Month Listing
 export async function listing(
@@ -9,6 +10,9 @@ export async function listing(
     method: "GET",
     url: `/Employee/me`,
     queryParams: props,
+    headers: {
+      "Authorization":Cookies.get("token"),
+    }
   });
 }
 

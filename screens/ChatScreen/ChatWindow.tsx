@@ -20,16 +20,17 @@ interface Message {
 
 interface ChatWindowProps {
   chat:Message[];
+  isGroupChat:boolean;
 }
 
-const ChatWindow: React.FC<ChatWindowProps> = ({ chat }) => {
+const ChatWindow: React.FC<ChatWindowProps> = ({ chat,isGroupChat }) => {
   const me = useMe({});
-  console.log(me?.data?.data,"me")
 
   return (
     <Box flex={1} p={2} display="flex" flexDirection="column" sx={{ overflowY: "auto" }}>
-      {chat.map((msg, index) => {
-        const isCurrentUser = msg.SenderId === me?.data?.data?._id;
+      {chat?.slice()?.reverse()?.map((msg, index) => {
+        const sender = isGroupChat ? msg?.SenderIdMessageData?._id : msg?.SenderId
+        const isCurrentUser = sender === me?.data?.data?._id;
         return (
           <Box
             key={index}
@@ -59,7 +60,7 @@ const ChatWindow: React.FC<ChatWindowProps> = ({ chat }) => {
                     backgroundColor: isCurrentUser ? '#3f51b5' : '#f1f1f1',
                     color: isCurrentUser ? 'white' : 'black',
                     borderRadius: '8px',
-                    maxWidth: '60%',
+                    maxWidth: '100%',
                     wordWrap: 'break-word',
                     marginLeft: isCurrentUser ? 'auto' : '0'
                   }}

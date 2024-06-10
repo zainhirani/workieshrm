@@ -1,15 +1,17 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Box, Typography, IconButton, Menu, MenuItem, TextField } from '@mui/material';
 import SendIcon from '@mui/icons-material/Send';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import EditIcon from '@mui/icons-material/Edit';
 import CheckIcon from '@mui/icons-material/Check';
 import CloseIcon from '@mui/icons-material/Close';
+import InsertDriveFileIcon from '@mui/icons-material/InsertDriveFile'; // Import the file icon
 
 interface Message {
   sender: string;
   text: string;
-  edited?: boolean; // Add edited flag
+  edited?: boolean;
+  files?: File[]; // Add files property to Message interface
 }
 
 interface ChatWindowProps {
@@ -24,9 +26,9 @@ interface ChatWindowProps {
 }
 
 const ChatWindow: React.FC<ChatWindowProps> = ({ chat, onEditMessage, onDeleteMessage }) => {
-  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-  const [editingIndex, setEditingIndex] = useState<number | null>(null);
-  const [editText, setEditText] = useState<string>('');
+  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+  const [editingIndex, setEditingIndex] = React.useState<number | null>(null);
+  const [editText, setEditText] = React.useState<string>('');
 
   const handleMenuOpen = (event: React.MouseEvent<HTMLElement>, index: number) => {
     setAnchorEl(event.currentTarget);
@@ -64,7 +66,7 @@ const ChatWindow: React.FC<ChatWindowProps> = ({ chat, onEditMessage, onDeleteMe
           <Box display="flex" flexDirection="column" alignItems={msg.sender === 'You' ? 'flex-end' : 'flex-start'}>
             <Typography variant="caption" color="textSecondary">
               {msg.sender}
-              {msg.edited && <Typography variant="caption" color="textSecondary" component="span"> (edited)</Typography>} {/* Display "edited" label if message is edited */}
+              {msg.edited && <Typography variant="caption" color="textSecondary" component="span"> (edited)</Typography>}
             </Typography>
             {editingIndex === index ? (
               <Box display="flex" alignItems="center">
@@ -83,6 +85,12 @@ const ChatWindow: React.FC<ChatWindowProps> = ({ chat, onEditMessage, onDeleteMe
               </Box>
             ) : (
               <Box display="flex" alignItems="center">
+                {msg.files && msg.files.map((file, fileIndex) => ( // Display files if present in message
+                  <Box key={fileIndex} display="flex" alignItems="center">
+                    <InsertDriveFileIcon />
+                    <Typography variant="body2">{file.name}</Typography>
+                  </Box>
+                ))}
                 <Typography
                   variant="body1"
                   style={{

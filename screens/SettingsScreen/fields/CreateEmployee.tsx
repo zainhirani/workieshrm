@@ -115,6 +115,7 @@ export const StepTwo = ({ handlePrev, handleNext, formValues, setFormValues }: S
         },
       );
       Cookies.set("EmployeeToken", createEmployee.data.token)
+      Cookies.set("token", createEmployee.data.token)
       setLoading(false);
       handleNext();
       

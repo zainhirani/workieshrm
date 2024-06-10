@@ -8,6 +8,7 @@ import enUS from 'date-fns/locale/en-US';
 import { styled } from '@mui/system';
 import { Close } from '@mui/icons-material';
 import PageLayout from 'components/PageLayout';
+import { useMe } from 'providers/Login';
 
 const locales = {
   'en-US': enUS,
@@ -59,6 +60,8 @@ const AttendanceCalendar: React.FC = () => {
     const [notes, setNotes] = useState<string>('');
     const [status, setStatus] = useState<string>('');
     const [selectedEvent, setSelectedEvent] = useState<AttendanceEvent | null>(null);
+    const me = useMe({});
+    console.log(me,"me")
   
     useEffect(() => {
       initializeEvents();

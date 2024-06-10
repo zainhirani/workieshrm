@@ -5,8 +5,11 @@ import { DocumentsData } from 'components/Views/TableData'
 import TableView from 'components/Views/TableView'
 import React, { useState } from 'react'
 import AddDocumentForm from './AddDocumentForm'
+import { useMe } from 'providers/Login'
 
 const ProfileDocumentScreen = () => {
+    const me = useMe({});
+    console.log(me,"me")
     const [view,setView] = useState(false);
     const [add,setAdd] = useState(false);
     const DocumentsColumn = [

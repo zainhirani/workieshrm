@@ -20,6 +20,7 @@ import { Field, Form, Formik } from 'formik';
 import { useTaskDetail, useTaskRemove, useTaskUpdate } from 'providers/Project/Task';
 import TableView from 'components/Views/TableView';
 import { useJoinMeeting, useMeetingListing } from 'providers/Project/Meeting';
+import { useMe } from 'providers/Login';
 // import Link from 'next/link';
 
 // export interface Item {
@@ -100,6 +101,8 @@ const listContainer = {
 };
 
 const ProjectByIDScreen: React.FC = () => {
+    const me = useMe({});
+    console.log(me,"me")
     const {enqueueSnackbar,closeSnackbar} = useSnackbar();
     const router = useRouter();
     const projectByID = useProjectDetail({id:router?.query?._id?.toString() || ""});

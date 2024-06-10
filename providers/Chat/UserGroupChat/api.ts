@@ -11,6 +11,9 @@ export async function listing(
     method: "GET",
     url: `/Chat/UserGroupDetail/${props?.id}`,
     queryParams: props,
+    headers:{
+      "Authorization":Cookies.get("token")
+  }
   });
 }
 

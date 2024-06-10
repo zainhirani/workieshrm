@@ -1,4 +1,5 @@
 import EditableBox from 'components/Views/EditableBox'
+import { useMe } from 'providers/Login';
 import React from 'react';
 
 const MaritalStatus = [
@@ -40,6 +41,8 @@ const ResidentialInfoArray = [
 ]
 
 const ProfileDetailsScreen = () => {
+  const me = useMe({});
+  console.log(me,"me")
   return (
     <>
       <EditableBox heading='Profile Details' fieldsArray={PersonalInfoArray}/>

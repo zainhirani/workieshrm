@@ -10,8 +10,11 @@ import { Visibility } from '@mui/icons-material'
 import { useProjectListing } from 'providers/Project'
 import { useEmployeeListing } from 'providers/Employee'
 import Loader from 'components/Loader/Loader'
+import { useMe } from 'providers/Login'
 
 const ProjectScreen = () => {
+    const me = useMe({});
+    console.log(me,"me")
     const router = useRouter();
     const [create,setCreate] = useState(false);
     const [loading,setLoading] = useState(false);

@@ -3,27 +3,37 @@ import { List, ListItem, ListItemAvatar, Avatar, ListItemText } from '@mui/mater
 
 interface ChatListProps {
   chats: {
-    id: string;
-    user?: string;
-    group?: string;
-    messages: { sender: string; text: string }[];
+    _id: string;
+    Name: string;
+    Email?: string;
+    LastMessageSentTime?: string;
+    DesignationData?: {
+      _id: string;
+      Name: string;
+    };
   }[];
   onChatSelect: (id: string) => void;
 }
 
 const ChatList: React.FC<ChatListProps> = ({ chats, onChatSelect }) => {
+
+  const formatLastMessageSentTime = (timestamp: string | undefined) => {
+    const date = new Date(timestamp || "");
+    return date.toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true });
+  };
+
   return (
     <List>
-      {chats.map((chat) => (
-        <ListItem button key={chat.id} onClick={() => onChatSelect(chat.id)}>
+      {chats && chats?.map((chat) => (
+        <ListItem button key={chat._id} onClick={() => onChatSelect(chat._id)}>
           <ListItemAvatar>
             {//@ts-ignore
-            <Avatar>{chat.user ? chat.user[0] : chat?.group[0]}</Avatar>
+            <Avatar>{chat.Name[0]}</Avatar>
             }
           </ListItemAvatar>
           <ListItemText
-            primary={chat.user || chat.group}
-            secondary={chat.messages[chat.messages.length - 1].text}
+            primary={chat.Name}
+            secondary={`Last seen ${formatLastMessageSentTime(chat.LastMessageSentTime)}`}
           />
         </ListItem>
       ))}

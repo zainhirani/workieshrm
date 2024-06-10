@@ -10,9 +10,9 @@ export namespace Login {
 
   //Listing
   export type ListingProps = {
-      SearchBy?: string | null;
-      Limit?: number | null;
-      Page?: number;
+      // SearchBy?: string | null;
+      // Limit?: number | null;
+      // Page?: number;
   };
   export type ListingResponse = { data: {items:Item[]};};
   export interface ListingAPIPayload extends ListingProps {}

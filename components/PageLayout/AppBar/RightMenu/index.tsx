@@ -9,9 +9,9 @@ const RightMenu = () => {
     <>
       <ThemeSwitcher />
       <IconButton>
-        <Badge color="success">
+        {/* <Badge color="success">
           <NotificationsNoneOutlinedIcon />
-        </Badge>
+        </Badge> */}
       </IconButton>
       <IconButton>
         <Avatar

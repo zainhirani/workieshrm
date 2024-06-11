@@ -11,6 +11,9 @@ export async function listing(
     method: "GET",
     url: `/Attendance/LeaveToBeApprove`,
     queryParams: props,
+    headers:{
+      "Authorization":Cookies.get("token")
+  }
   });
 }
 
@@ -23,8 +26,26 @@ export async function requestedLeaveListing(
       method: "GET",
       url: `/Attendance/EmployeeLeaveRequested`,
       queryParams: props,
+      headers:{
+        "Authorization":Cookies.get("token")
+    }
     });
   }
+
+  // Apply Leave
+export async function create(
+  props: Leave.CreateAPIPayload,
+): Promise<Leave.CreateResponse> {
+  return service({
+    method: "POST",
+    url: `/Attendance/ApplyLeave`,
+    body: props.data,
+    formData:true,
+    headers:{
+        "Authorization":Cookies.get("token")
+    }
+  });
+}
 
 // Reject
 export async function reject(
@@ -34,6 +55,9 @@ export async function reject(
       method: "PUT",
       url: `/Attendance/RejectLeave/${props.id}`,
       body: props.data,
+      headers:{
+        "Authorization":Cookies.get("token")
+    }
     });
   }
 
@@ -45,5 +69,8 @@ export async function approve(
       method: "PUT",
       url: `/Attendance/ApproveLeave/${props.id}`,
       body: props.data,
+      headers:{
+        "Authorization":Cookies.get("token")
+    }
     });
   }

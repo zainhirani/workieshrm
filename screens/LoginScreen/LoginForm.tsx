@@ -20,7 +20,7 @@ import Loader from "components/Loader/Loader";
 import { useSnackbar } from "notistack";
 import { useAuthContext } from "contexts/AuthContext";
 import { Close } from "@mui/icons-material";
-import { useCeoLogin, useMainLogin } from "providers/Login";
+import { useCeoLogin, useMainLogin, useMe } from "providers/Login";
 
 const validationSchema = Yup.object().shape({
   Email: Yup.string().required().email().label("Email"),
@@ -34,6 +34,7 @@ const LoginForm = () => {
   const { signIn } = useAuthContext();
   // const login = useCeoLogin();
   const login = useMainLogin();
+  const me = useMe({})
 
   const onSubmit = useCallback(async (data: any) => {
     if (!loading) {
@@ -93,9 +94,10 @@ const LoginForm = () => {
           </IconButton>
         ),
       });
-      router.push("/")
       setLoading(false);
       Cookies.set("token", login.data.token)
+      //@ts-ignore
+      me?.data?.data?.Type == "Employee" ? router.push("/") : router.push("/settings")
       // localStorage.setItem(TOKEN, createOrganization?.data.token);
     }
   }, [login.isSuccess]);

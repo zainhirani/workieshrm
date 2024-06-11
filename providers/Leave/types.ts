@@ -25,6 +25,18 @@ export namespace Leave {
       export type LeaveRequestedListingResponse = { data: {items:Item[]};};
       export interface LeaveRequestedListingAPIPayload extends LeaveRequestedListingProps {}
 
+    //Apply Leave
+    export type CreateProps = {};
+    export type CreateResponse = {
+      message: string;
+    };
+    export type CreateMutationPayload = {
+      Day: Date | string;
+    };
+    export interface CreateAPIPayload extends CreateProps {
+      data: CreateMutationPayload;
+    }
+
     //Reject Leave
     export type RejectProps = {
         id: number | string;
@@ -33,8 +45,7 @@ export namespace Leave {
         message: string;
     };
     export type RejectMutationPayload = {
-        Arrival: string | Date
-        Departure: string | Date;
+        id:string;
     };
     export interface RejectAPIPayload extends RejectProps {
         data: RejectMutationPayload;
@@ -48,8 +59,7 @@ export namespace Leave {
         message: string;
     };
     export type ApproveMutationPayload = {
-        Arrival: string | Date
-        Departure: string | Date;
+        id:string;
     };
     export interface ApproveAPIPayload extends ApproveProps {
         data: ApproveMutationPayload;

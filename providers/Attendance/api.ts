@@ -11,6 +11,9 @@ export async function listing(
     method: "GET",
     url: `/Attendance/EmployeeAttendanceCalender`,
     queryParams: props,
+    headers:{
+      "Authorization":Cookies.get("token")
+  }
   });
 }
 
@@ -23,6 +26,9 @@ export async function timeListing(
       method: "GET",
       url: `/Attendance/EmployeeTime`,
       queryParams: props,
+      headers:{
+        "Authorization":Cookies.get("token")
+    }
     });
   }
 

@@ -9,9 +9,10 @@ interface TableViewProps{
   url?:string;
   style?:Object;
   height?:string;
+  loading?:boolean;
 }
 
-const TableView: React.FC<TableViewProps> = ({columns,rows,ID,url,style,height}) => {
+const TableView: React.FC<TableViewProps> = ({columns,rows,ID,url,style,height,loading}) => {
   const router=useRouter();
   return (
     <>
@@ -45,6 +46,7 @@ const TableView: React.FC<TableViewProps> = ({columns,rows,ID,url,style,height})
             // slots={{
             //   toolbar: GridToolbar,
             // }}
+            loading={loading || false}
             disableColumnMenu
             disableColumnSelector
           />

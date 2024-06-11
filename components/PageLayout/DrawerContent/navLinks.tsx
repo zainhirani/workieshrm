@@ -14,6 +14,16 @@ const MenuData = [
     icon: <CalendarTodayOutlinedIcon />,
     link: "/attendance",
   },
+  {
+    title: "Leaves",
+    icon: <CalendarTodayOutlinedIcon />,
+    link: "/leaves",
+  },
+  {
+    title: "Leave Approval",
+    icon: <CalendarTodayOutlinedIcon />,
+    link: "/leaveApproval",
+  },
   // {
   //   title: "Meet In",
   //   icon: <GroupsOutlinedIcon />,

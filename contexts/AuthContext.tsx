@@ -120,7 +120,7 @@ import {
 import { useRouter } from "next/router";
 import { Box, CircularProgress } from "@mui/material";
 import { signOut as logout, signIn, useSession } from "next-auth/react";
-import { AUTH_LOGIN_URL, AUTH_SIGNUP_URL, AUTH_VERIFY_URL, TOKEN } from "configs";
+import { AUTH_LOGIN_URL, AUTH_SIGNUP_URL, AUTH_VERIFY_URL } from "configs";
 import { getAuthenticationToken, setAuthenticationHeader } from "services";
 import { Register } from "providers/Auth/types";
 // import { FLEET_MANAGEMENT } from "constants/routes";
@@ -172,20 +172,20 @@ const AuthContextProvider: React.FC<AuthContextProps> = ({ children }) => {
     setAuthenticationHeader(currToken);
   }
 
-  async function getTokenFunction() {
-    if (typeof window !== "undefined") {
-      if (router.pathname.includes("register")) {
-        const getToken = localStorage.getItem(TOKEN);
-        setAuthenticationHeader(getToken);
-      }
-    }
-  }
-  if (router.pathname.includes("register")) {
-    setInterval(() => {
-      getTokenFunction();
-    }, 3000);
-  }
-  getTokenFunction();
+  // async function getTokenFunction() {
+  //   if (typeof window !== "undefined") {
+  //     if (router.pathname.includes("register")) {
+  //       const getToken = localStorage.getItem(TOKEN);
+  //       setAuthenticationHeader(getToken);
+  //     }
+  //   }
+  // }
+  // if (router.pathname.includes("register")) {
+  //   setInterval(() => {
+  //     getTokenFunction();
+  //   }, 3000);
+  // }
+  // getTokenFunction();
 
   if (loading) {
     return (
